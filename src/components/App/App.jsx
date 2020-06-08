@@ -9,6 +9,7 @@ const App = () => {
       <div className="wrap">
         <Switch>
           <Route path="/" component={ProductsPage} exact/>
+          <Route path="/index.html" component={ProductsPage} exact/>
           <Route render={()=><p>Старница не найдена</p>} />
         </Switch>
       </div>
