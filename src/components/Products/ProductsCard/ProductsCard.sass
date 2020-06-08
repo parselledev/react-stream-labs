@@ -1,0 +1,71 @@
+.products
+  &__card
+    display: grid
+    grid-gap: 10px
+    padding: 10px
+    background: white
+    box-shadow: 0 20px 40px -14px rgba(0,0,0,0.25)
+    border-radius: 5px
+    align-content: start
+    min-height: 128px
+
+    +media-mx(600px)
+      min-height: auto
+
+  &__card-img
+    height: 120px
+    width: 100%
+    background: url(./img/placeholder.png)
+    background-size: 250px
+    background-position: center
+    background-repeat: no-repeat
+    background-color: #e2e2e2
+    align-self: start
+  
+  &__card-content
+    position: relative
+
+  &__card-title
+    font-weight: bold
+    align-self: start
+    min-height: 24px
+    padding-right: 29px
+  
+  &__card-desc
+    align-self: start
+
+  &__card-expand
+    position: absolute
+    top: -5px
+    right: 0
+    width: 24px !important
+    height: 24px
+    text-align: center
+    display: grid
+    align-content: end
+    opacity: 0.5
+
+  &__card-list
+    display: grid
+    width: calc(100% + 20px)
+    grid-gap: 10px
+    margin-top: 10px
+    position: absolute
+    left: -10px
+    background: white
+    z-index: 10
+    padding: 10px
+    border-radius: 0 0 10px 10px
+    box-shadow: 0 20px 40px -14px rgba(0,0,0,0.25)
+  
+  &__card-list-item
+    display: grid
+    grid-gap: 2px
+    padding-bottom: 5px
+      
+    &:not(:nth-last-child(1))
+      border-bottom: 1px solid lightgrey
+
+  &__card-sub-product-title
+    font-weight: 600
+    opacity: 0.8

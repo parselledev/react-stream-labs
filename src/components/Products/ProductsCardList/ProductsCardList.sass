@@ -1,0 +1,12 @@
+.products
+  &__list
+    display: grid
+    grid-template-columns: 1fr 1fr 1fr
+    grid-gap: 15px
+    align-content: start
+
+    +media-mx(768px)
+      grid-template-columns: 1fr 1fr
+
+    +media-mx(600px)
+      grid-template-columns: 1fr

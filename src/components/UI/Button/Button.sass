@@ -1,0 +1,52 @@
+.c-btn
+  display: grid
+  align-content: center
+  text-decoration: none
+  text-align: center
+  cursor: pointer
+  outline: none
+  transition: 0.15s
+  border: 1px solid transparent
+
+  &__icon
+    font-size: 10px
+
+  //Size
+  +mod('--small')
+    width: 100%
+    min-width: 25px
+    min-height: 25px
+    border-radius: 5px
+    border: 1px solid transparent
+
+  //Type
+  +mod('--circle')
+    border-radius: 50%
+
+  //Icon
+  +mod('--icon')
+    .c-btn__content
+      display: grid
+      justify-items: center
+      align-items: center
+      align-content: center
+      pointer-events: 
+
+  +mod('--iconed')
+    .c-btn__content
+      display: grid
+      justify-items: center
+      align-items: center
+      grid-template-columns: auto auto
+      grid-gap: 5px
+      pointer-events: 
+
+  //Color
+  +mod('--blue')
+    background: $color-blue
+    color: white
+    +on-event
+      background: darken($color-blue, 12%)
+    &:disabled
+      opacity: 0.5
+      cursor: not-allowed
