@@ -1,6 +1,6 @@
 export default class ApiService {
 
-  _apiBase = 'https://support.stream-labs.com/api/'
+  _apiBase = 'https://5ee1dd4030deff0016c4036d.mockapi.io/'
 
   getResource = async (query) => {
     const res = await fetch(`${this._apiBase}${query}`);
@@ -13,7 +13,7 @@ export default class ApiService {
   };
 
   getProducts = async () => {
-    const res = await this.getResource('products');
+    const res = await this.getResource('items');
     return res;
   }
 

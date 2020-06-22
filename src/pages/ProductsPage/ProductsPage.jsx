@@ -12,11 +12,6 @@ import './ProductsPage.sass';
 
 class ProductsPageContainer extends Component {
 
-  static propTypes = {
-    products: PropTypes.object,
-    productsGet: PropTypes.func.isRequired
-  };
-
   componentDidMount() {
     this.props.productsGet();
   }
@@ -28,6 +23,11 @@ class ProductsPageContainer extends Component {
       </div>
     );
   }
+}
+
+ProductsPageContainer.propTypes = {
+  products: PropTypes.object,
+  productsGet: PropTypes.func.isRequired
 }
 
 const mapStateToProps = createStructuredSelector({

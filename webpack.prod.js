@@ -4,6 +4,9 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const CircularDependencyPlugin = require('circular-dependency-plugin')
+const CompressionPlugin = require('compression-webpack-plugin');
+//const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin'); // Can add some files to build
 
 module.exports = {
   mode: 'production',
@@ -18,12 +21,35 @@ module.exports = {
     new CleanWebpackPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
+      inject: true,
       title: 'Output Management',
-      template: './src/index.pug'
+      template: './src/index.pug',
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true,
+      }
     }),
-
+    // new AddAssetHtmlPlugin({ filepath: require.resolve('./some-file') }),
     new MiniCssExtractPlugin({
       filename: 'main.[hash:5].css'
+    }),
+    new CircularDependencyPlugin({
+      exclude: /a\.js|node_modules/,
+      failOnError: false,
+    }),
+    new CompressionPlugin({
+      algorithm: 'gzip',
+      test: /\.js$|\.css$|\.html$/,
+      threshold: 10240,
+      minRatio: 0.8,
     }),
   ],
   output: {
@@ -42,22 +68,33 @@ module.exports = {
     }
   },
   optimization: {
+    minimize: true,
+    sideEffects: true,
+    concatenateModules: true,
+    runtimeChunk: 'single',
     minimizer: [
       new UglifyJsPlugin({
         cache: true,
         parallel: true,
-        sourceMap: false //set to true if you want JS source maps
+        sourceMap: false
       })
     ],
     splitChunks: {
+      chunks: 'all',
+      maxInitialRequests: 10,
+      minSize: 0,
       cacheGroups: {
         vendor: {
           test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all'
-        }
-      }
-    }
+          name(module) {
+            const packageName = module.context.match(
+              /[\\/]node_modules[\\/](.*?)([\\/]|$)/,
+            )[1];
+            return `npm.${packageName.replace('@', '')}`;
+          },
+        },
+      },
+    },
   },
   performance: {
     hints: false

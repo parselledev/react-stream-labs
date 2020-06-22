@@ -22,7 +22,7 @@ const ProductsCardList = ({
     for(let key in products) {
       const product = products[key];
 
-      if(product && !product.isDeleted) {
+      if(product) {
         result[key] = product;
       }
     }
@@ -35,20 +35,20 @@ const ProductsCardList = ({
     Object.keys(visibleProducts).length != 0 ?
       <ul className="products__list">
         {
-          Object.keys(visibleProducts).map(key => {
-          return(
-            visibleProducts[key].ParentID == null ?
-              <ProductsCard
-              key={key}
-              id={visibleProducts[key].ProductID}
-              fetching={fetching}
-              product={visibleProducts[key]}
-              products={visibleProducts}
-            />
-            :
-            null
-          );
-          })
+          !fetching ? 
+            Object.keys(visibleProducts).map(key => {
+            return(
+              visibleProducts[key].ParentID == null ?
+                <ProductsCard
+                key={key}
+                product={visibleProducts[key]}
+              />
+              :
+              null
+            );
+            })
+          :
+          <p>Загрузка...</p>
         }
       </ul>
   :

@@ -2,6 +2,8 @@ const path = require('path');
 const webpack = require('webpack');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CircularDependencyPlugin = require('circular-dependency-plugin')
+//const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin'); // Can add some files to build
 
 module.exports = {
   mode: 'development',
@@ -16,10 +18,17 @@ module.exports = {
     new CleanWebpackPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
+      inject: true,
       title: 'Output Management',
       template: './src/index.pug'
+    }),
+    new CircularDependencyPlugin({
+      exclude: /a\.js|node_modules/,
+      failOnError: false,
     })
+    // new AddAssetHtmlPlugin({ filepath: require.resolve('./some-file') }),
   ],
+  devtool: 'eval-source-map',
   output: {
     filename: 'js/[name].js',
     path: path.resolve(__dirname, 'dist')
